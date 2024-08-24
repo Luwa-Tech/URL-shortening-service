@@ -1,5 +1,5 @@
 const winston = require('winston');
-require('./initLogs');
+require('./init-logs');
 
 const serverLogger = winston.loggers.get('serverLogger');
 const urlLogger = winston.loggers.get('urlLogger');
