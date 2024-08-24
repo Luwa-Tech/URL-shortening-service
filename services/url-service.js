@@ -1,33 +1,56 @@
 const Url = require('../model/Url');
-const nanoid = require('nanoid');
-const logs = require('../log/logs');
+const { nanoid } = require('nanoid');
+const { urlLogger } = require('../log/logs');
 
 
 class URLService {
-    constructor () {
+    constructor() {
         this.urlRepo = Url;
     }
 
     getURL = async (url) => {
-        const url = await this.urlRepo.findOne({orgurl: url});
-        return url;
+        const findUrl = await this.urlRepo.findOne({ orgurl: url });
+        return findUrl;
     }
 
     shortenURL = async (url) => {
         try {
-            const shortUrlID = nanoid();
+            const urlID = nanoid();
             const baseURL = process.env.BASE_URL;
             const result = await this.urlRepo.create({
                 orgurl: url,
-                shorturl: `${baseURL}/${shortUrlID}`,
-                clicks: 0
+                shorturl: `${baseURL}/${urlID}`,
+                urlId: urlID,
+                createdAt: new Date()
             })
+            urlLogger.info('New url shortened!', result)
 
-            return result;
+            return await result.save();
         } catch (error) {
-            logs.urlLogger.error(error.message);
-            throw new Error(error.message);
-            return;
+            urlLogger.error(error.message);
+        }
+    }
+
+    getUrlId = async (id) => {
+        return await this.urlRepo.findOne({
+            urlId: id
+        });
+    }
+
+    updateClicks = async (urlID) => {
+        try {
+            const result = await this.getUrlId(urlID);
+
+            if (result) {
+                await this.urlRepo.updateOne(
+                    {
+                      urlId: urlID,
+                    },
+                    { $inc: { clicks: 1 } }
+                  );
+            }
+        } catch (error) {
+            urlLogger.error(error.message);
         }
     }
 }

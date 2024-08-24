@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const serviceSchema = new mongoose.Schema({
+    urlId: {
+        required: true,
+        type: String
+    },
+
     orgurl: {
         required: true,
         type: String
