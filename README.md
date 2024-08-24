@@ -1,9 +1,6 @@
 # URL-shortening-service
 A simple and efficient URL shortener service built using Node.js, MongoDB, Mongoose, and Nanoid. This service allows users to shorten long URLs into short, manageable links and redirect users to the original URLs using the short links.
 
-## Preview:
-  
-
 ## Features:
   - Shorten long URLs into short, unique URLs.
   - Redirect short URLs to the original long URLs.
@@ -19,7 +16,7 @@ A simple and efficient URL shortener service built using Node.js, MongoDB, Mongo
    - Installation
        1. Clone the repository
           ```
-          git clone https://github.com/yourusername/url-shortener-service.git
+          git clone https://github.com/Luwa-Tech/URL-shortening-service.git
           cd URL-shortening-service
 
           ```
